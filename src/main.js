@@ -40,7 +40,7 @@ async function sendTelegramPhotoGroup({ title, price, description, link, photoLi
 
 async function getOfferDescription(browser, link) {
   const page = await browser.newPage();
-  await page.goto(link, { waitUntil: 'networkidle2' });
+  await page.goto(link, { waitUntil: 'load', timeout: 60000 });
   const result = await page.evaluate(() => {
     const description = document.querySelector('div[data-cy="ad_description"] div')?.innerText || '';
     const photoLinks = Array.from(document.querySelectorAll('div.swiper-zoom-container img'))
@@ -68,8 +68,6 @@ async function scrapeOlx() {
       return { title, link, price, img, location };
     });
   });
-
-  console.log(listings);
 
   const inLocationScopeListings = listings.filter(item =>
     INCLUDED_SUBDIVISIONS.some(sub => item.location.includes(sub))
