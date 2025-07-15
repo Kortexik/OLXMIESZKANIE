@@ -40,7 +40,7 @@ async function sendTelegramPhotoGroup({ title, price, description, link, photoLi
 
 async function getOfferDescription(browser, link) {
   const page = await browser.newPage();
-  await page.goto(link, { waitUntil: 'load', timeout: 60000 });
+  await page.goto(link, { waitUntil: 'load', timeout: 90000 });
   const result = await page.evaluate(() => {
     const description = document.querySelector('div[data-cy="ad_description"] div')?.innerText || '';
     const photoLinks = Array.from(document.querySelectorAll('div.swiper-zoom-container img'))
@@ -56,7 +56,7 @@ async function scrapeOlx() {
   const seenLinks = loadSeenLinks();
   const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
-  await page.goto(QUERY_URL, { waitUntil: 'load', timeout: 60000 });
+  await page.goto(QUERY_URL, { waitUntil: 'load', timeout: 90000 });
 
   const listings = await page.evaluate(() => {
     return Array.from(document.querySelectorAll('div[data-cy="l-card"]')).map(card => {
