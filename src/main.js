@@ -56,7 +56,7 @@ async function scrapeOlx() {
   const seenLinks = loadSeenLinks();
   const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
-  await page.goto(QUERY_URL, { waitUntil: 'networkidle2' });
+  await page.goto(QUERY_URL, { waitUntil: 'load', timeout: 60000 });
 
   const listings = await page.evaluate(() => {
     return Array.from(document.querySelectorAll('div[data-cy="l-card"]')).map(card => {
